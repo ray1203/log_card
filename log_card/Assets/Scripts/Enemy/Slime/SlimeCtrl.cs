@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-public class BatCtrl : MonoBehaviour
+
+public class SlimeCtrl : MonoBehaviour
 {
-    private int maxHp = 20;
+    private int maxHp = 100;
     private int damage = 10;
     private float moveSpeed = 3f;
     private float maxMoveSpeed = 3f;
-    private float attackDist = 3f;
-    private float attackCool = 3f;
-    private float attackTimer = 3f;
+    private int attackCounter = 0;
     private PlayerCtrl player;
     private SpriteRenderer sprite;
     private Animator animator;
-    public bool attack = false;
+    public bool attack1 = false, attack2 = false;
+    private Vector2 attackPos;
     private EnemyAttackCol attackCol;
     private bool enterPlayer = false;
     void Start()
@@ -45,41 +44,58 @@ public class BatCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        attackTimer += Time.deltaTime;
-        if (attackTimer>=attackCool && Vector2.Distance(gameObject.transform.position, player.transform.position) <= attackDist) AttackStart();
-        if(!enterPlayer)
-            Move();
+        if (!enterPlayer&&!attack1&&!attack2)
+            Move(player.transform.position);
+        else if (attack1)
+        {
+            Move(attackPos);
+        }
     }
-    void Move()
+    public void AddCounter()
     {
-        transform.position = Vector2.MoveTowards(transform.position,player.transform.position,moveSpeed*Time.deltaTime);
+        animator.SetInteger("counter",attackCounter++);
+    }
+    void Move(Vector2 movePos)
+    {
+        transform.position = Vector2.MoveTowards(transform.position, movePos, moveSpeed * Time.deltaTime);
         if (transform.position.x > player.transform.position.x) sprite.flipX = true;
         else sprite.flipX = false;
     }
-    
-    void AttackStart()
-    {
-        attackTimer = 0f;
-        //Debug.Log("AttackStart");
-        animator.SetTrigger("Attack");
-        moveSpeed = 7f;
-    }
-    public void Attack()
+
+    void Attack1Start()
     {
         attackCol.attackChance = true;
-        //Debug.Log("Attack");
-        attack = true;
-        //attackCol.gameObject.SetActive(true);
-        animator.ResetTrigger("Attack");
 
+        attackPos = player.transform.position;
+        //Debug.Log("AttackStart");
+        //animator.SetTrigger("Attack");
+        moveSpeed = 0;
+        attackCounter = 0;
+        animator.SetInteger("counter", attackCounter);
+       //attackCol.gameObject.SetActive(true);
+        attack1 = true;
     }
-    public void AttackEnd()
+    public void Attack1End()
     {
         attackCol.attackChance = false;
         //Debug.Log("AttackEnd");
-        attack = false;
+        //attackCol.gameObject.SetActive(false);
+        attack1 = false;
+    }
+    void Attack2Start()
+    {
+        attackCol.attackChance = true;
+        attack2 = true;
+        //Debug.Log("AttackStart");
+        //animator.SetTrigger("Attack");
+        //attackCol.gameObject.SetActive(true);
+    }
+    public void Attack2End()
+    {
+        attackCol.attackChance = false;
+        //Debug.Log("AttackEnd");
+        attack2 = false;
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
-        attackTimer = 0f;
     }
 }

@@ -5,13 +5,29 @@ using UnityEngine;
 public class EnemyAttackCol : MonoBehaviour
 {
     public int damage;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public bool isPlayer = false;
+    public bool attackChance = false;
+    private void LateUpdate()
+    {
+        if (isPlayer && attackChance)
+        {
+            Debug.Log("player damaged " + damage + " by" + transform.parent.name);
+            GameManager.instance.player.damaged(damage);
+            attackChance = false;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            Debug.Log("player damaged " + damage + " by" + transform.parent.name);
-            collision.GetComponent<PlayerCtrl>().damaged(damage);
+            isPlayer = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            isPlayer = false;
         }
     }
 }
