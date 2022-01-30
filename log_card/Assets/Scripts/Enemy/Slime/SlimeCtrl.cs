@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
+using System;
 public class SlimeCtrl : MonoBehaviour
 {
     private int maxHp = 100;
@@ -16,6 +17,13 @@ public class SlimeCtrl : MonoBehaviour
     private Vector2 attackPos;
     private EnemyAttackCol attackCol;
     private bool enterPlayer = false;
+
+    private float checkCool = 3f;
+    private float checkTimer = 3f;
+    private Vector2[] moveRoot;
+    private int moveIdx = 0;
+    private int moveLen = 0;
+    public int moveFlag = 0;//0: 기본 이동, 1: 장애물 피해서 이동
     void Start()
     {
         player = GameManager.instance.player;
@@ -26,6 +34,7 @@ public class SlimeCtrl : MonoBehaviour
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
         gameObject.GetComponent<EnemyHp>().hp = maxHp;
+        moveRoot = new Vector2[1000];
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -44,12 +53,78 @@ public class SlimeCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!enterPlayer&&!attack1&&!attack2)
-            Move(player.transform.position);
+        checkTimer += Time.deltaTime;
+        if (checkTimer >= checkCool)
+        {
+            if (GameManager.instance.checkWall(transform.position, player.transform.position))
+            {
+                checkTimer = 0;
+                CheckRoot();
+            }
+            else
+            {
+                moveFlag = 0;
+            }
+        } else if (GameManager.instance.checkWall(transform.position, player.transform.position)&&moveFlag==0)
+        {
+            CheckRoot();
+        }
+        if (!enterPlayer && !attack1 && !attack2)
+        {
+            if (moveFlag == 0)
+            {
+                Move(player.transform.position);
+            }
+            else if (moveFlag == 1)
+            {
+                try
+                {
+                    if (moveLen == 0 || moveLen <= moveIdx) ;
+                    else
+                    {
+                        
+                        Move(moveRoot[moveIdx]);
+                        if (Vector2.Distance(transform.position, moveRoot[moveIdx]) <= 0.1f)
+                        {
+                            moveIdx++;
+                            if (moveLen <= moveIdx)
+                            {
+                                moveFlag = 0;
+                                moveIdx = 0;
+                                CheckRoot();
+                                checkTimer = 0;
+                                moveLen = 0;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e) { Debug.Log(e); }
+            }
+        }
         else if (attack1)
         {
             Move(attackPos);
         }
+    }
+    private void CheckRoot()
+    {
+            moveFlag = -1;
+            Vector2[] newList = (Vector2[])GameManager.instance.moveAlgorithm.FindRoot(transform.position, player.transform.position).Clone();
+        //moveRoot.Clear();
+        //moveRoot.Capacity = newList.Count + 1;
+            String log = "";
+            for (int i = 0; i < newList.Length; i++) { 
+                if (newList[i] == new Vector2(0, 0)) break; 
+                moveRoot[i] = newList[i];
+                log += moveRoot[i];
+            }
+            Debug.Log(log);
+            //newList.Clear();
+            moveLen = newList.Length;
+            Debug.Log(transform.position + " " + player.transform.position + " " + moveRoot);
+            moveIdx = 0;
+            moveFlag = 1;
+        
     }
     public void AddCounter()
     {
@@ -61,7 +136,10 @@ public class SlimeCtrl : MonoBehaviour
         if (transform.position.x > player.transform.position.x) sprite.flipX = true;
         else sprite.flipX = false;
     }
+    void MoveByAlg()
+    {
 
+    }
     void Attack1Start()
     {
         attackCol.attackChance = true;

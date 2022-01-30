@@ -24,22 +24,35 @@ public class MoveAlgorithm : MonoBehaviour
             }
         }
         tilemap.GetComponent<TilemapCollider2D>().usedByComposite = true;
-        List<Vector2>  r = FindRoot(new Vector2(5,10),new Vector2(20,20));
+        //List<Vector2>  r = FindRoot(new Vector2(5,10),new Vector2(20,20));
         //Debug.Log(r.Count);
-        for(int i = 0; i < r.Count; i++)
-        {
+        //for(int i = 0; i < r.Count; i++)
+        //{
             //Debug.Log(i + ":" + r[i]);
-            GameManager.instance.makePing(r[i]);
-        }
+         //   GameManager.instance.makePing(r[i]);
+        //}
     }
-    public List<Vector2> FindRoot(Vector2 startPos, Vector2 endPos)
+    public Vector2[] FindRoot(Vector2 startPos, Vector2 endPos)
     {
-        List<Vector2> root = new List<Vector2>();
+        startPos = new Vector2((int)startPos.x, (int)startPos.y);
+        endPos = new Vector2((int)endPos.x, (int)endPos.y);
         Vector2[] dxy = new Vector2[4];
         dxy[0] = new Vector2(0, 1);
         dxy[1] = new Vector2(0, -1);
         dxy[2] = new Vector2(1, 0);
         dxy[3] = new Vector2(-1, 0);
+        if(arr[(int)endPos.x, (int)endPos.y])
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                Vector2 newData = endPos + dxy[i];
+                if (!arr[(int)newData.x, (int)newData.y])
+                {
+                    endPos = newData;
+                    break;
+                }
+            }
+        }
         int[,] check = new int[1000, 1000];
         Vector2[,] from = new Vector2[1000, 1000];
         check[(int)startPos.x, (int)startPos.y] = 1;
@@ -48,6 +61,7 @@ public class MoveAlgorithm : MonoBehaviour
 
         while (que.Count > 0)
         {
+            //Debug.Log(que.Count);
             Vector2 data = que.Dequeue();
             for(int i = 0; i < 4; i++)
             {
@@ -67,22 +81,30 @@ public class MoveAlgorithm : MonoBehaviour
                     check[(int)newData.x, (int)newData.y] = check[(int)data.x, (int)data.y] + 1;
                     from[(int)newData.x, (int)newData.y] = data;
                 }
-                if (newData == endPos)
+                if (CompareIntVector(newData,endPos))
                 {
+                    int cap = check[(int)newData.x, (int)newData.y];
+                    Vector2[] root = new Vector2[cap+1];
                     Vector2 ansData = endPos;
+                    int idx = cap-1;
                     while (ansData != startPos)
                     {
-                        root.Add(ansData);
+                        root[--idx] = new Vector2((int)ansData.x,(int)ansData.y);
                         ansData = from[(int)ansData.x, (int)ansData.y];
+                        if (idx == 0) break;
                     }
-                    root.Reverse();
                     return root;
                 }
             }
         }
 
 
-        return root;
+        return null;
+    }
+    bool CompareIntVector(Vector2 vec1,Vector2 vec2)
+    {
+        if ((int)vec1.x == (int)vec2.x && (int)vec1.y == (int)vec2.y) return true;
+        return false;
     }
     bool RayCastTile(int x,int y)
     {
@@ -92,7 +114,7 @@ public class MoveAlgorithm : MonoBehaviour
         Ray2D ray = new Ray2D(vector2,transform.forward);
         hit = Physics2D.RaycastAll(vector2, transform.forward);
         Debug.DrawRay(vector2, transform.forward * 10, Color.red, 0.3f);
-        Debug.Log(hit.Length);
+        
         for (int i = 0; i < hit.Length; i++)
         {
             if (hit[i])

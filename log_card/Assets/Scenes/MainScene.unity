@@ -4903,7 +4903,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656003993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.77, y: 34.72, z: -3.8442547}
+  m_LocalPosition: {x: 10.37, y: 16.78, z: -3.8442547}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -13728,7 +13728,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416838258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 10, z: -3.8442547}
+  m_LocalPosition: {x: 0, y: 0, z: -3.8442547}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -13814,6 +13814,7 @@ MonoBehaviour:
   grid: {fileID: 1736276224}
   tilemap: {fileID: 0}
   ping: {fileID: 8629576154261967418, guid: 2975c4cb50f45ac48b6ce7a680d3d795, type: 3}
+  moveAlgorithm: {fileID: 0}
 --- !u!4 &2085448743
 Transform:
   m_ObjectHideFlags: 0
