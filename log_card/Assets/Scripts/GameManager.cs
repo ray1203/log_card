@@ -11,16 +11,16 @@ public class GameManager : MonoBehaviour
     public Tilemap tilemap;
     public GameObject ping;
     public MoveAlgorithm moveAlgorithm;
+    public MapCtrl mapCtrl;
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
-        tilemap = grid.transform.Find("wall").GetComponent<Tilemap>();
-        moveAlgorithm = gameObject.GetComponent<MoveAlgorithm>();
+        moveAlgorithm = GetComponent<MoveAlgorithm>();
+        mapCtrl = GetComponent<MapCtrl>();
     }
     private void Start()
     {
-        Debug.Log(checkWall(new Vector2(10, 10), new Vector2(10, 20)));
     }
     private void Update()
     {

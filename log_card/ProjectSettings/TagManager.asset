@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnemyAttackCol
   - Enemy
+  - Map
   layers:
   - Default
   - TransparentFX

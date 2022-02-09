@@ -23,7 +23,10 @@ public class SlimeCtrl : MonoBehaviour
     private Vector2[] moveRoot;
     private int moveIdx = 0;
     private int moveLen = 0;
-    public int moveFlag = 0;//0: 기본 이동, 1: 장애물 피해서 이동
+    public int moveFlag = 2;//0: 기본 이동, 1: 장애물 피해서 이동 ,2: 무작위 이동
+
+    public Vector2 nextRoot;//디버그용 
+    private int recognizeRange = 10;
     void Start()
     {
         player = GameManager.instance.player;
@@ -35,6 +38,14 @@ public class SlimeCtrl : MonoBehaviour
         moveSpeed = maxMoveSpeed;
         gameObject.GetComponent<EnemyHp>().hp = maxHp;
         moveRoot = new Vector2[1000];
+        if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.checkWall(transform.position, player.transform.position))
+        {
+            moveFlag = 0;
+        }
+        else { 
+            moveFlag = 2;
+            CheckRoot(2);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -53,13 +64,14 @@ public class SlimeCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        nextRoot = moveRoot[moveIdx];
         checkTimer += Time.deltaTime;
-        if (checkTimer >= checkCool)
+        if (moveFlag!=2 && checkTimer >= checkCool)
         {
             if (GameManager.instance.checkWall(transform.position, player.transform.position))
             {
                 checkTimer = 0;
-                CheckRoot();
+                CheckRoot(1);
             }
             else
             {
@@ -67,7 +79,7 @@ public class SlimeCtrl : MonoBehaviour
             }
         } else if (GameManager.instance.checkWall(transform.position, player.transform.position)&&moveFlag==0)
         {
-            CheckRoot();
+            CheckRoot(1);
         }
         if (!enterPlayer && !attack1 && !attack2)
         {
@@ -75,11 +87,14 @@ public class SlimeCtrl : MonoBehaviour
             {
                 Move(player.transform.position);
             }
-            else if (moveFlag == 1)
+            else if (moveFlag == 1 || moveFlag == 2)
             {
                 try
                 {
-                    if (moveLen == 0 || moveLen <= moveIdx) ;
+                    if (moveLen == 0 || moveLen <= moveIdx)
+                    {
+
+                    }
                     else
                     {
                         
@@ -87,13 +102,25 @@ public class SlimeCtrl : MonoBehaviour
                         if (Vector2.Distance(transform.position, moveRoot[moveIdx]) <= 0.1f)
                         {
                             moveIdx++;
-                            if (moveLen <= moveIdx)
+                            if (moveLen <= moveIdx&&moveFlag==1)
                             {
                                 moveFlag = 0;
                                 moveIdx = 0;
-                                CheckRoot();
+                                CheckRoot(1);
                                 checkTimer = 0;
                                 moveLen = 0;
+                            }else if(moveFlag == 2)
+                            {
+                                if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.checkWall(transform.position, player.transform.position))
+                                {
+                                    moveFlag = 0;
+                                    checkTimer = checkCool;
+                                }
+                                else if (moveLen <= moveIdx)
+                                {
+                                    moveIdx = 0;
+                                    CheckRoot(2);
+                                }
                             }
                         }
                     }
@@ -106,10 +133,13 @@ public class SlimeCtrl : MonoBehaviour
             Move(attackPos);
         }
     }
-    private void CheckRoot()
+    private void CheckRoot(int flag)
     {
-            moveFlag = -1;
-            Vector2[] newList = (Vector2[])GameManager.instance.moveAlgorithm.FindRoot(transform.position, player.transform.position).Clone();
+        moveFlag = -1;
+        Vector2[] newList;
+        if (flag == 1) newList = (Vector2[])GameManager.instance.moveAlgorithm.FindRoot(transform.position, player.transform.position).Clone();
+        else if (flag == 2) newList = (Vector2[])GameManager.instance.moveAlgorithm.FindRandomRoot(transform.position).Clone();
+        else return;
         //moveRoot.Clear();
         //moveRoot.Capacity = newList.Count + 1;
             String log = "";
@@ -123,7 +153,7 @@ public class SlimeCtrl : MonoBehaviour
             moveLen = newList.Length;
             Debug.Log(transform.position + " " + player.transform.position + " " + moveRoot);
             moveIdx = 0;
-            moveFlag = 1;
+            moveFlag = flag;
         
     }
     public void AddCounter()
@@ -135,10 +165,6 @@ public class SlimeCtrl : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, movePos, moveSpeed * Time.deltaTime);
         if (transform.position.x > player.transform.position.x) sprite.flipX = true;
         else sprite.flipX = false;
-    }
-    void MoveByAlg()
-    {
-
     }
     void Attack1Start()
     {

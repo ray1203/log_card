@@ -11,7 +11,7 @@ public class PlayerCtrl : MonoBehaviour
     private SpriteRenderer sprite;
     private int hp;
     private int maxHp = 100;
-    private int damage = 10;
+    private int damage = 100;//10
     private float attackRate = 0.5f;
     private Image hpBar;
     private GameObject attackCol;
@@ -78,5 +78,12 @@ public class PlayerCtrl : MonoBehaviour
     public float hpRatio()
     {
         return (float)hp / (float)maxHp;
+    }
+    public void heal(int amount)
+    {
+        hp += amount;
+        if (hp > maxHp) hp = maxHp;
+        hpBar.fillAmount = hpRatio();
+
     }
 }

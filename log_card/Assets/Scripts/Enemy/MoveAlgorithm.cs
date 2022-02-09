@@ -6,24 +6,10 @@ using UnityEngine.Tilemaps;
 public class MoveAlgorithm : MonoBehaviour
 {
     private Tilemap tilemap;
-    bool[,] arr = new bool[1000,1000];
+    bool[,] arr = new bool[1000,1000];//true: Àå¾Ö¹°
     // Start is called before the first frame update
     void Start()
     {
-        tilemap = GameManager.instance.tilemap;
-        tilemap.GetComponent<TilemapCollider2D>().usedByComposite = false;
-        for(int i = 0; i <= 50; i++)
-        {
-            for(int j = 0; j <= 50; j++)
-            {
-
-                if (RayCastTile(i, j))
-                {
-                    arr[i,j] = true;
-                }
-            }
-        }
-        tilemap.GetComponent<TilemapCollider2D>().usedByComposite = true;
         //List<Vector2>  r = FindRoot(new Vector2(5,10),new Vector2(20,20));
         //Debug.Log(r.Count);
         //for(int i = 0; i < r.Count; i++)
@@ -31,6 +17,24 @@ public class MoveAlgorithm : MonoBehaviour
             //Debug.Log(i + ":" + r[i]);
          //   GameManager.instance.makePing(r[i]);
         //}
+    }
+    public void SetMap()
+    {
+        tilemap = GameManager.instance.tilemap;
+        Debug.Log(tilemap);
+        tilemap.GetComponent<TilemapCollider2D>().usedByComposite = false;
+        for (int i = 0; i <= 50; i++)
+        {
+            for (int j = 0; j <= 50; j++)
+            {
+
+                if (RayCastTile(i, j))
+                {
+                    arr[i, j] = true;
+                }
+            }
+        }
+        tilemap.GetComponent<TilemapCollider2D>().usedByComposite = true;
     }
     public Vector2[] FindRoot(Vector2 startPos, Vector2 endPos)
     {
@@ -101,6 +105,43 @@ public class MoveAlgorithm : MonoBehaviour
 
         return null;
     }
+    public Vector2[] FindRandomRoot(Vector2 startPos)
+    {
+        startPos = new Vector2((int)startPos.x, (int)startPos.y);
+        Vector2[] dxy = new Vector2[4];
+        dxy[0] = new Vector2(0, 1);
+        dxy[1] = new Vector2(0, -1);
+        dxy[2] = new Vector2(1, 0);
+        dxy[3] = new Vector2(-1, 0);
+
+        Vector2[] root = new Vector2[10];
+        root[0] = startPos;
+        for(int i = 1; i < 10; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                int random1 = Random.Range(0, 4);
+                int random2 = Random.Range(0, 4);
+
+                Vector2 t = dxy[random1];
+                dxy[random1] = dxy[random2];
+                dxy[random2] = t;
+            }
+            for (int j=0;j<4;j++)
+            {
+                Vector2 newRoot = root[i - 1] + dxy[j];
+                if (arr[(int)newRoot.x, (int)newRoot.y]||GameManager.instance.checkWall(newRoot, startPos)){
+                    continue;
+                }
+                else
+                {
+                    root[i] = newRoot;
+                    break;
+                }
+            }
+        }
+        return root;
+    }
     bool CompareIntVector(Vector2 vec1,Vector2 vec2)
     {
         if ((int)vec1.x == (int)vec2.x && (int)vec1.y == (int)vec2.y) return true;
@@ -119,7 +160,7 @@ public class MoveAlgorithm : MonoBehaviour
         {
             if (hit[i])
             {
-                if (hit[i].transform.GetComponent<TilemapCollider2D>() != null)
+                if (hit[i].transform.GetComponent<TilemapCollider2D>() != null && !hit[i].transform.GetComponent<TilemapCollider2D>().isTrigger)
                 {
                     //Debug.Log(x + "," + y + "," + hit.point);
                     GameManager.instance.makePing(hit[i].point);
