@@ -12,12 +12,16 @@ public class GameManager : MonoBehaviour
     public GameObject ping;
     public MoveAlgorithm moveAlgorithm;
     public MapCtrl mapCtrl;
+    public CardData cardData;
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
         moveAlgorithm = GetComponent<MoveAlgorithm>();
         mapCtrl = GetComponent<MapCtrl>();
+        cardData = new CardData();
+        cardData.DataSet();
+        Debug.Log(cardData.cards[0].name);
     }
     private void Start()
     {

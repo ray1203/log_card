@@ -148,10 +148,10 @@ public class SlimeCtrl : MonoBehaviour
                 moveRoot[i] = newList[i];
                 log += moveRoot[i];
             }
-            Debug.Log(log);
+            //Debug.Log(log);
             //newList.Clear();
             moveLen = newList.Length;
-            Debug.Log(transform.position + " " + player.transform.position + " " + moveRoot);
+            //Debug.Log(transform.position + " " + player.transform.position + " " + moveRoot);
             moveIdx = 0;
             moveFlag = flag;
         
