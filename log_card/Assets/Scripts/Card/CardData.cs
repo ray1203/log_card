@@ -7,6 +7,6 @@ public class CardData
     public void DataSet()
     {
         cards = new List<Card>();
-        cards.Add(new Card(2,"회복","체력을 10 회복시킵니다",delegate { GameManager.instance.player.heal(10); }));
+        cards.Add(new Card(2,"회복","체력을 10 회복시킵니다",delegate { GameManager.instance.player.heal(10);},GameManager.instance.cardSprites[0]));
     }
 }

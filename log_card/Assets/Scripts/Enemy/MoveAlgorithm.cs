@@ -163,7 +163,7 @@ public class MoveAlgorithm : MonoBehaviour
                 if (hit[i].transform.GetComponent<TilemapCollider2D>() != null && !hit[i].transform.GetComponent<TilemapCollider2D>().isTrigger)
                 {
                     //Debug.Log(x + "," + y + "," + hit.point);
-                    GameManager.instance.makePing(hit[i].point);
+                    //GameManager.instance.makePing(hit[i].point);
                     return true;
                 }
             }

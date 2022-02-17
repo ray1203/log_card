@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public MoveAlgorithm moveAlgorithm;
     public MapCtrl mapCtrl;
     public CardData cardData;
+    public List<Sprite> cardSprites;
     // Start is called before the first frame update
     void Awake()
     {
