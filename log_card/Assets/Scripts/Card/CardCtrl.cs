@@ -17,10 +17,28 @@ public class CardCtrl : MonoBehaviour
     {
         if (!control)
             transform.localPosition = pos;
-        else if (control && !card.targeting)
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        else
+        {
+            if (!card.targeting)
+                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (Input.GetMouseButtonDown(1))
+            {
+                Time.timeScale = 1f;
+                control = false;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                Time.timeScale = 1f;
+                control = false;
+                card.func();
+                GameManager.instance.myCard.cardObjects.Remove(this);
+                Destroy(this.gameObject);
+            }
+        }
+        
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         
         Debug.Log(Input.mousePosition);
     }
+
 }

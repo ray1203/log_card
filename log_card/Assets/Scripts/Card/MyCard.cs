@@ -15,6 +15,14 @@ public class MyCard : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q)) AddCard(GameManager.instance.cardData.cards[0]);
+        CardCtrl selectedCard = RaycastCard();
+        if (selectedCard != null)
+        {
+            Time.timeScale = 0f;
+            selectedCard.control = true;
+
+
+        }
     }
     public void AddCard(Card newCard)
     {
@@ -47,6 +55,22 @@ public class MyCard : MonoBehaviour
             pos.Add(new Vector2(i, -300));
         }
         return pos;
+    }
+    private CardCtrl RaycastCard()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D[] raycastHit2D = Physics2D.RaycastAll(pos, Vector2.zero);
+            for(int i = 0; i < raycastHit2D.Length; i++)
+            {
+                if (raycastHit2D[i].transform.GetComponent<CardCtrl>()!=null)
+                {
+                    return raycastHit2D[i].transform.GetComponent<CardCtrl>();
+                }
+            }
+        }
+        return null;
     }
     
 }
