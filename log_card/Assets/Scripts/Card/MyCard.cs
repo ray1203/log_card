@@ -5,37 +5,37 @@ using TMPro;
 using UnityEngine.UI;
 public class MyCard : MonoBehaviour
 {
-    public List<Card> cards;
-    public List<GameObject> cardObjects;
+    public List<CardCtrl> cardObjects;
     public GameObject emptyCard;
     public GameObject myCard;
-    List<Vector2> cardPos;
     private void Start()
     {
-        cards = new List<Card>();
-        cardObjects = new List<GameObject>();
+        cardObjects = new List<CardCtrl>();
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q)) AddCard(GameManager.instance.cardData.cards[0]);
-        for(int i = 0; i < cardObjects.Count; i++)
-        {
-            cardObjects[i].transform.localPosition = cardPos[i];
-        }
     }
     public void AddCard(Card newCard)
     {
-        cards.Add(newCard);
         GameObject newCardObj = Instantiate(emptyCard);
         newCardObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = newCard.name;
         newCardObj.transform.Find("Cost").GetComponent<TextMeshProUGUI>().text = newCard.cost.ToString();
         newCardObj.transform.Find("Desc").GetComponent<TextMeshProUGUI>().text = newCard.txt;
         newCardObj.transform.Find("Image").GetComponent<Image>().sprite = newCard.sprite;
-        newCardObj.transform.parent = myCard.transform;
+        newCardObj.transform.SetParent(myCard.transform);
         newCardObj.transform.localScale = new Vector2(1, 1);
         newCardObj.transform.localPosition = new Vector3(0,0,-1);
-        cardObjects.Add(newCardObj);
-        cardPos = SetPos(cards.Count);
+        List<Vector2> vec =  SetPos(cardObjects.Count);
+
+        newCardObj.GetComponent<CardCtrl>().card = newCard;
+        cardObjects.Add(newCardObj.GetComponent<CardCtrl>());
+        for(int i = 0; i < cardObjects.Count; i++)
+        {
+            cardObjects[i].pos = vec[i];
+        }
+        Debug.Log(cardObjects.Count + " " + vec.Count);
+
     }
     public List<Vector2> SetPos(int num)
     {
@@ -44,7 +44,7 @@ public class MyCard : MonoBehaviour
         int endX = 250 * num / 2;
         for(int i = startX; i <= endX; i += 250)
         {
-            pos.Add(new Vector2(i+125, -300));
+            pos.Add(new Vector2(i, -300));
         }
         return pos;
     }

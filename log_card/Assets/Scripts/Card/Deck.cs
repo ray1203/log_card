@@ -21,6 +21,7 @@ public class Deck
     }
     public Card Draw()
     {
+        
         Card card = curDeck[0];
         curDeck.RemoveAt(0);
         if (curDeck.Count == 0)
