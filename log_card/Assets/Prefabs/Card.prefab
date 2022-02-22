@@ -323,6 +323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: {x: 0, y: 0}
+  control: 0
+  crosshair: {fileID: 3373129165418275730, guid: da1a6bd202fcfce459251a5c7f8871f7, type: 3}
 --- !u!61 &8650062640287542704
 BoxCollider2D:
   m_ObjectHideFlags: 0

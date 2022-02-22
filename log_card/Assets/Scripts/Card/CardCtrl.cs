@@ -21,13 +21,21 @@ public class CardCtrl : MonoBehaviour
         {
             if (!card.targeting)
                 transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (Input.GetMouseButtonDown(1))
+            else
             {
+                GameManager.instance.crosshair.SetActive(true);
+                GameManager.instance.crosshair.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition)-new Vector3(0,0, Camera.main.ScreenToWorldPoint(Input.mousePosition).z);
+                transform.position = GameManager.instance.player.transform.position + new Vector3(8, 0, 0);
+            }
+            if (Input.GetMouseButtonDown(1))//취소
+            {
+                GameManager.instance.crosshair.SetActive(false);
                 Time.timeScale = 1f;
                 control = false;
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))//발동
             {
+                GameManager.instance.crosshair.SetActive(false);
                 Time.timeScale = 1f;
                 control = false;
                 card.func();
@@ -38,7 +46,6 @@ public class CardCtrl : MonoBehaviour
         
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         
-        Debug.Log(Input.mousePosition);
     }
 
 }
