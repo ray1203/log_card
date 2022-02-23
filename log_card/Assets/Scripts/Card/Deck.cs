@@ -5,6 +5,11 @@ public class Deck
 {
     public List<Card> deck;//µ¦¸®
     public List<Card> curDeck;//Ä«µå ¼Ò¸ðµÈ µ¦
+    public Deck()
+    {
+        deck = new List<Card>();
+        curDeck = new List<Card>();
+    }
     public void Shuffle()
     {
         int r1, r2;

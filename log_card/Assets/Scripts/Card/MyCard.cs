@@ -14,7 +14,7 @@ public class MyCard : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) AddCard(GameManager.instance.cardData.cards[1]);
+        if (Input.GetKeyDown(KeyCode.Q)) AddCard(GameManager.instance.deck.Draw());
         CardCtrl selectedCard = RaycastCard();
         if (selectedCard != null)
         {

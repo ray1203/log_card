@@ -952,9 +952,11 @@ MonoBehaviour:
   cardSprites:
   - {fileID: 21300000, guid: 53e51fad758058948a993810c468438c, type: 3}
   - {fileID: 21300006, guid: c8260d15cb31d3d49a251f7cdb4d1777, type: 3}
+  - {fileID: 21300000, guid: 92b315788e6ebb34f90dddacbca17e68, type: 3}
   myCard: {fileID: 2085448746}
   crosshair: {fileID: 1830311793}
   explode: {fileID: 49960242905916368, guid: 8cb66b8ea8f52e147881cac1a663acf8, type: 3}
+  fireball: {fileID: 4186599987558985879, guid: dfca4e26200f65749959babf5483b254, type: 3}
 --- !u!4 &2085448743
 Transform:
   m_ObjectHideFlags: 0

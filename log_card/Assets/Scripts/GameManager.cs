@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviour
     public MoveAlgorithm moveAlgorithm;
     public MapCtrl mapCtrl;
     public CardData cardData;
+    public Deck deck;
     public List<Sprite> cardSprites;
     public MyCard myCard;
     public GameObject crosshair;
     public GameObject explode;
+    public GameObject fireball;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,9 +28,13 @@ public class GameManager : MonoBehaviour
         cardData = new CardData();
         cardData.DataSet();
         Debug.Log(cardData.cards[0].name);
+        deck = new Deck();
     }
     private void Start()
     {
+        deck.AddCard(cardData.cards[0]);
+        deck.AddCard(cardData.cards[1]);
+        deck.AddCard(cardData.cards[2]);
     }
     private void Update()
     {
