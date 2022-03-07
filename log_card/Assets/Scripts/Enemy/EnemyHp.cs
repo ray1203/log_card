@@ -13,6 +13,7 @@ public class EnemyHp : MonoBehaviour
     }
     public void Die()
     {
+        GameManager.instance.myCard.AddCard(GameManager.instance.deck.Draw());
         Debug.Log("enemy died");
         //GameManager.instance.player.gameObject.GetComponent<PlayerAttackCol>().removeEnemy(this);
         Destroy(this.gameObject);

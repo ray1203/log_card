@@ -32,7 +32,7 @@ public class Explode : MonoBehaviour
         {
             enemyList[i].Damaged(damage);
         }
-        if (playerHit) GameManager.instance.player.damaged(damage);
+        if (playerHit) GameManager.instance.player.Damaged(damage);
 
     }
     private void ExplodeEnd()

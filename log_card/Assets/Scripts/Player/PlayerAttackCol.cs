@@ -40,10 +40,11 @@ public class PlayerAttackCol : MonoBehaviour
     {
         for(int i = 0; i < enemyList.Count; i++)
         {
+            GameManager.instance.player.AddMp(1);
             enemyList[i].Damaged(damage);
         }
     }
-    public void removeEnemy(EnemyHp enemyHp)
+    public void RemoveEnemy(EnemyHp enemyHp)
     {
         enemyList.Remove(enemyHp);
     }

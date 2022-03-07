@@ -11,17 +11,23 @@ public class PlayerCtrl : MonoBehaviour
     private SpriteRenderer sprite;
     private int hp;
     private int maxHp = 100;
+    private int mp;
     private int damage = 100;//10
     private float attackRate = 0.5f;
     private Image hpBar;
+    private Image mpBar;
+    private Text mpText;
     private GameObject attackCol;
     
     private void Start()
     {
+        mp = 0;
         hp = maxHp;
         animator = this.GetComponent<Animator>();
         sprite = this.GetComponent<SpriteRenderer>();
         hpBar = GameManager.instance.canvas.transform.Find("PlayerHpBar").GetComponent<Image>();
+        mpBar = GameManager.instance.canvas.transform.Find("PlayerMpBar").GetComponent<Image>();
+        mpText = mpBar.transform.Find("Text").GetComponent<Text>();
         attackCol = transform.Find("AttackCol").gameObject;
         attackCol.GetComponent<PlayerAttackCol>().damage = damage;
         attackCol.GetComponent<PlayerAttackCol>().attackRate = attackRate;
@@ -70,20 +76,35 @@ public class PlayerCtrl : MonoBehaviour
             animator.SetInteger("idle", dir);
         }
     }
-    public void damaged(int amount)
+    public void Damaged(int amount)
     {
         hp -= amount;
-        hpBar.fillAmount = hpRatio();
+        hpBar.fillAmount = HpRatio();
     }
-    public float hpRatio()
+    public float HpRatio()
     {
         return (float)hp / (float)maxHp;
     }
-    public void heal(int amount)
+    public void Heal(int amount)
     {
         hp += amount;
         if (hp > maxHp) hp = maxHp;
-        hpBar.fillAmount = hpRatio();
+        hpBar.fillAmount = HpRatio();
 
+    }
+    public void AddMp(int amount)
+    {
+        mp += amount;
+        if (mp > 10) mp = 10;
+        mpBar.fillAmount = (float)mp / 10f;
+        mpText.text = mp.ToString();
+    }
+    public bool UseMp(int amount)
+    {
+        if (mp < amount) return false;
+        mp -= amount;
+        mpBar.fillAmount = (float)mp / 10f;
+        mpText.text = mp.ToString();
+        return true;
     }
 }

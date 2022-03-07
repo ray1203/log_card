@@ -12,7 +12,7 @@ public class EnemyAttackCol : MonoBehaviour
         if (isPlayer && attackChance)
         {
             Debug.Log("player damaged " + damage + " by" + transform.parent.name);
-            GameManager.instance.player.damaged(damage);
+            GameManager.instance.player.Damaged(damage);
             attackChance = false;
         }
     }

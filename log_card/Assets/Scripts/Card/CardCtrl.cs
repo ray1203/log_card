@@ -38,9 +38,15 @@ public class CardCtrl : MonoBehaviour
                 GameManager.instance.crosshair.SetActive(false);
                 Time.timeScale = 1f;
                 control = false;
-                card.func();
-                GameManager.instance.myCard.cardObjects.Remove(this);
-                Destroy(this.gameObject);
+                if (GameManager.instance.player.UseMp(card.cost)) {
+                    card.func();
+                    GameManager.instance.myCard.cardObjects.Remove(this);
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+
+                }
             }
         }
         

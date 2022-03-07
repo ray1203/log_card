@@ -12,7 +12,7 @@ public class Bonfire : MonoBehaviour
         if (timer >= 0.3f&&isPlayer)
         {
             timer = 0f;
-            GameManager.instance.player.heal(1);
+            GameManager.instance.player.Heal(1);
 
         }
     }
