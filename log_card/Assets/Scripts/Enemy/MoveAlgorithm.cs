@@ -21,7 +21,6 @@ public class MoveAlgorithm : MonoBehaviour
     public void SetMap()
     {
         tilemap = GameManager.instance.tilemap;
-        Debug.Log(tilemap);
         tilemap.GetComponent<TilemapCollider2D>().usedByComposite = false;
         for (int i = 0; i <= 50; i++)
         {

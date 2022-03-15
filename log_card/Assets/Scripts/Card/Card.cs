@@ -27,7 +27,6 @@ public class Card
         this.func = func;
         this.sprite = sprite;
         this.targeting = targeting;
-        printData();
     }
     public void printData()
     {

@@ -21,7 +21,7 @@ public class PlayerCtrl : MonoBehaviour
     
     private void Start()
     {
-        mp = 0;
+        mp = 3;
         hp = maxHp;
         animator = this.GetComponent<Animator>();
         sprite = this.GetComponent<SpriteRenderer>();
@@ -35,49 +35,55 @@ public class PlayerCtrl : MonoBehaviour
     }
     private void Update()
     {
-        
-        // 위, 아래로 움직이기
-        if (Input.GetAxisRaw("Vertical") < 0)
+        if (BuffManager.instance.getValue(BuffStat.stop) == 1)
         {
-            dir = 2;
-            transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-            attackCol.transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-        if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            dir = 3;
-            transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-            attackCol.transform.rotation = Quaternion.Euler(0, 0, 180);
-        }
-        //좌 우
-        if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            sprite.flipX = false;
-            dir = 1;
-            transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
-            attackCol.transform.rotation = Quaternion.Euler(0, 0, 90);
-        }
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-            sprite.flipX = true;
-            dir = 1;
-            transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
-            attackCol.transform.rotation = Quaternion.Euler(0, 0, -90);
-        }
-        if (Input.GetMouseButton(0))
-        {
-            attackCol.SetActive(true);
-            animator.SetInteger("attack", dir);
-        }
-        else
-        {
-            attackCol.SetActive(false);
-            animator.SetInteger("attack", -1);
-            animator.SetInteger("idle", dir);
+            // 위, 아래로 움직이기
+            if (Input.GetAxisRaw("Vertical") < 0)
+            {
+                dir = 2;
+                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f));
+                attackCol.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            if (Input.GetAxisRaw("Vertical") > 0)
+            {
+                dir = 3;
+                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f));
+                attackCol.transform.rotation = Quaternion.Euler(0, 0, 180);
+            }
+            //좌 우
+            if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                sprite.flipX = false;
+                dir = 1;
+                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f, 0f));
+                attackCol.transform.rotation = Quaternion.Euler(0, 0, 90);
+            }
+            if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                sprite.flipX = true;
+                dir = 1;
+                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f, 0f));
+                attackCol.transform.rotation = Quaternion.Euler(0, 0, -90);
+            }
+            if (Input.GetMouseButton(0))
+            {
+                attackCol.SetActive(true);
+                animator.SetInteger("attack", dir);
+            }
+            else
+            {
+                attackCol.SetActive(false);
+                animator.SetInteger("attack", -1);
+                animator.SetInteger("idle", dir);
+            }
         }
     }
     public void Damaged(int amount)
     {
+        amount -= (int)BuffManager.instance.getValue(BuffStat.absolDef);
+        Debug.Log((BuffManager.instance.getValue(BuffStat.def)));
+        amount = (int)((float)amount * (BuffManager.instance.getValue(BuffStat.def) - 1f));
+        if (amount < 0) amount = 0;
         hp -= amount;
         hpBar.fillAmount = HpRatio();
     }

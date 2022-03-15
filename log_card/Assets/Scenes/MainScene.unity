@@ -1131,6 +1131,7 @@ GameObject:
   - component: {fileID: 2085448744}
   - component: {fileID: 2085448745}
   - component: {fileID: 2085448746}
+  - component: {fileID: 2085448747}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1161,10 +1162,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 53e51fad758058948a993810c468438c, type: 3}
   - {fileID: 21300006, guid: c8260d15cb31d3d49a251f7cdb4d1777, type: 3}
   - {fileID: 21300000, guid: 92b315788e6ebb34f90dddacbca17e68, type: 3}
+  - {fileID: 21300000, guid: 6960c6bd5088317429f7e0e033bee813, type: 3}
+  - {fileID: 21300000, guid: f6b8b85cbdc82ce439a41ae3d56d57ee, type: 3}
+  - {fileID: 21300000, guid: 64ef9dedecd6faa499d610618954874e, type: 3}
   myCard: {fileID: 2085448746}
   crosshair: {fileID: 1830311793}
   explode: {fileID: 49960242905916368, guid: 8cb66b8ea8f52e147881cac1a663acf8, type: 3}
   fireball: {fileID: 4186599987558985879, guid: dfca4e26200f65749959babf5483b254, type: 3}
+  iceShield: {fileID: 1566091493037507046, guid: deeb0ce91fdf9a84db1767bf77bd4c86, type: 3}
 --- !u!4 &2085448743
 Transform:
   m_ObjectHideFlags: 0
@@ -1223,3 +1228,15 @@ MonoBehaviour:
   cardObjects: []
   emptyCard: {fileID: 6744045186073617549, guid: 80e731c0b15a86b46ae0c3b9d48e85ea, type: 3}
   myCard: {fileID: 874037958}
+--- !u!114 &2085448747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085448741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c2f79bd3e4a5c4db97489b8029b0d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
