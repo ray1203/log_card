@@ -56,11 +56,11 @@ public class BuffManager : MonoBehaviour
         }
         for (int i = 0; i < durationBuffs.Count; i++)
         {
-            if (durationBuffs[i].duration <= 0f) { durationBuffs[i].onDelete(); durationBuffs.RemoveAt(i);}
+            if (durationBuffs[i].duration <= 0f) { durationBuffs[i].OnDelete(); durationBuffs.RemoveAt(i);}
         }
     }
 
-    public string addBuff(BuffStat buffStat, float value, float duration = 0f, BuffType buffType = BuffType.none, string name = "")
+    public string AddBuff(BuffStat buffStat, float value, float duration = 0f, BuffType buffType = BuffType.none, string name = "")
     {//올리는 스탯 종류, 수치, 지속시간(0이면 무제한), 차징같은 버프 종류, 이름
         if (name == "") name = "buffNum" + c++;
         if (duration == 0f)
@@ -73,23 +73,23 @@ public class BuffManager : MonoBehaviour
         }
         return name;
     }
-    public void deleteBuff(string name)
+    public void DeleteBuff(string name)
     {
-        for (int i = 0; i < buffs.Count; i++) if (buffs[i].name == name) { buffs[i].onDelete(); buffs.RemoveAt(i); return; }
-        for (int i = 0; i < durationBuffs.Count; i++) if (durationBuffs[i].name == name) { durationBuffs[i].onDelete(); durationBuffs.RemoveAt(i); return; }
+        for (int i = 0; i < buffs.Count; i++) if (buffs[i].name == name) { buffs[i].OnDelete(); buffs.RemoveAt(i); return; }
+        for (int i = 0; i < durationBuffs.Count; i++) if (durationBuffs[i].name == name) { durationBuffs[i].OnDelete(); durationBuffs.RemoveAt(i); return; }
     }
-    public bool findBuff(string name)
+    public bool FindBuff(string name)
     {
         for (int i = 0; i < buffs.Count; i++) if (buffs[i].name == name) return true;
         for (int i = 0; i < durationBuffs.Count; i++) if (durationBuffs[i].name == name) return true;
         return false;
     }
-    public void stopType(BuffType buffType)
+    public void StopType(BuffType buffType)
     {
-        for (int i = 0; i < buffs.Count; i++) if (buffs[i].buffType == buffType) { buffs[i].onDelete(); buffs.RemoveAt(i--); }
-        for (int i = 0; i < durationBuffs.Count; i++) if (durationBuffs[i].buffType == buffType) { durationBuffs[i].onDelete(); durationBuffs.RemoveAt(i--); }
+        for (int i = 0; i < buffs.Count; i++) if (buffs[i].buffType == buffType) { buffs[i].OnDelete(); buffs.RemoveAt(i--); }
+        for (int i = 0; i < durationBuffs.Count; i++) if (durationBuffs[i].buffType == buffType) { durationBuffs[i].OnDelete(); durationBuffs.RemoveAt(i--); }
     }
-    public float getValue(BuffStat buffStat)
+    public float GetValue(BuffStat buffStat)
     {
         return buffValue[(int)buffStat];
     }
@@ -110,7 +110,7 @@ class Buff
         if (value > 0) BuffManager.buffValue[(int)buffStat] += value;
         else BuffManager.buffValue[(int)buffStat] *= 1 + value;
     }
-    public void onDelete()
+    public void OnDelete()
     {
         if (value > 0) BuffManager.buffValue[(int)buffStat] -= value;
         else BuffManager.buffValue[(int)buffStat] /= 1 + value;

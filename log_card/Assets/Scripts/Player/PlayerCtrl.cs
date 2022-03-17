@@ -35,19 +35,19 @@ public class PlayerCtrl : MonoBehaviour
     }
     private void Update()
     {
-        if (BuffManager.instance.getValue(BuffStat.stop) == 1)
+        if (BuffManager.instance.GetValue(BuffStat.stop) == 1)
         {
             // 위, 아래로 움직이기
             if (Input.GetAxisRaw("Vertical") < 0)
             {
                 dir = 2;
-                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f));
+                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
             if (Input.GetAxisRaw("Vertical") > 0)
             {
                 dir = 3;
-                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f));
+                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
             //좌 우
@@ -55,14 +55,14 @@ public class PlayerCtrl : MonoBehaviour
             {
                 sprite.flipX = false;
                 dir = 1;
-                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f, 0f));
+                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f, 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             if (Input.GetAxisRaw("Horizontal") < 0)
             {
                 sprite.flipX = true;
                 dir = 1;
-                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.getValue(BuffStat.speed)), 0f, 0f));
+                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f, 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, -90);
             }
             if (Input.GetMouseButton(0))
@@ -80,9 +80,9 @@ public class PlayerCtrl : MonoBehaviour
     }
     public void Damaged(int amount)
     {
-        amount -= (int)BuffManager.instance.getValue(BuffStat.absolDef);
-        Debug.Log((BuffManager.instance.getValue(BuffStat.def)));
-        amount = (int)((float)amount * (BuffManager.instance.getValue(BuffStat.def) - 1f));
+        amount -= (int)BuffManager.instance.GetValue(BuffStat.absolDef);
+        Debug.Log((BuffManager.instance.GetValue(BuffStat.def)));
+        amount = (int)((float)amount * (BuffManager.instance.GetValue(BuffStat.def) - 1f));
         if (amount < 0) amount = 0;
         hp -= amount;
         hpBar.fillAmount = HpRatio();

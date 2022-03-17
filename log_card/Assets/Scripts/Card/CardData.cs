@@ -30,21 +30,35 @@ public class CardData
 
         cards.Add(new Card(3, "경량화", "더 빨라집니다.", delegate
         { 
-            BuffManager.instance.addBuff(BuffStat.speed, 0.5f, 20); 
+            BuffManager.instance.AddBuff(BuffStat.speed, 0.5f, 20); 
         }, GameManager.instance.cardSprites[3]));
 
         cards.Add(new Card(3, "강철 신체", "느려지지만 피해를 덜 받습니다.", delegate
         {
-            BuffManager.instance.addBuff(BuffStat.speed, -0.3f, 20);
-            BuffManager.instance.addBuff(BuffStat.def, 0.5f, 20);
+            BuffManager.instance.AddBuff(BuffStat.speed, -0.3f, 20);
+            BuffManager.instance.AddBuff(BuffStat.def, 0.5f, 20);
         }, GameManager.instance.cardSprites[4]));
 
         cards.Add(new Card(3, "얼음 방패", "잠시 무적이 됩니다.", delegate
            {
-               BuffManager.instance.addBuff(BuffStat.stop, 1f, 1);
-               BuffManager.instance.addBuff(BuffStat.absolDef, 10000000, 1);
-               GameManager.instance.makePing(GameManager.instance.player.transform.position, GameManager.instance.iceShield) ;
+               BuffManager.instance.AddBuff(BuffStat.stop, 1f, 1);
+               BuffManager.instance.AddBuff(BuffStat.absolDef, 10000000, 1);
+               GameManager.instance.MakePing(GameManager.instance.player.transform.position, GameManager.instance.iceShield) ;
            }, GameManager.instance.cardSprites[5]));
+
+        cards.Add(new Card(6, "광분화", "공격력과 이동속도가 증가합니다.", delegate
+           {
+               BuffManager.instance.AddBuff(BuffStat.damage, 0.3f, 10);
+               BuffManager.instance.AddBuff(BuffStat.speed, 0.2f, 10);
+           }, GameManager.instance.cardSprites[6]
+        ));
+
+        cards.Add(new Card(4, "순간이동", "해당 위치로 이동합니다.", delegate
+           {
+               Vector3 p =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
+               GameManager.instance.player.transform.position = new Vector3(p.x, p.y, 0);
+           }, GameManager.instance.cardSprites[7], true));
+
     }
 
 }

@@ -20,9 +20,13 @@ public class GameManager : MonoBehaviour
     public GameObject explode;
     public GameObject fireball;
     public GameObject iceShield;
+    public GameObject droppedCard;
+    public GameObject deckUI;
+    public float shuffleTimer;
     // Start is called before the first frame update
     void Awake()
     {
+        shuffleTimer = 0;
         instance = this;
         moveAlgorithm = GetComponent<MoveAlgorithm>();
         mapCtrl = GetComponent<MapCtrl>();
@@ -32,13 +36,24 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        for (int i = 0; i < cardData.cards.Count; i++)
+        for (int i = 0; i < cardData.cards.Count/2; i++)
             deck.AddCard(cardData.cards[i]);
+        DropCard(new Vector2(20, 20));
     }
     private void Update()
     {
+        if (deck.shuffleCool)
+        {
+            shuffleTimer += Time.deltaTime;
+            deck.image.fillAmount = 1-shuffleTimer / (float)deck.shuffleTime;
+            if (shuffleTimer >= deck.shuffleTime)
+            {
+                shuffleTimer = 0;
+                deck.shuffleCool = false;
+            }
+        }
     }
-    public void makePing(Vector2 p,GameObject gameObject,float time=1f)
+    public void MakePing(Vector2 p,GameObject gameObject,float time=1f)
     {
         GameObject newPing = Instantiate(gameObject);
         newPing.transform.position = p;
@@ -49,7 +64,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
     }
-    public bool checkWall(Vector2 pos1,Vector2 pos2)
+    public bool CheckWall(Vector2 pos1,Vector2 pos2)
     {
         Vector2 heading = pos2 - pos1;
         float dist = Vector2.Distance(pos1, pos2);
@@ -60,5 +75,12 @@ public class GameManager : MonoBehaviour
             if (hits[i].transform.gameObject.layer==7) { return true;}
         }
         return false;
+    }
+    public void DropCard(Vector2 pos)
+    {
+        GameObject newObject = Instantiate(droppedCard);
+        newObject.transform.SetParent(canvas.transform);
+        newObject.GetComponent<DroppedCard>().RandomSetting();
+        newObject.GetComponent<DroppedCard>().pos = pos;
     }
 }

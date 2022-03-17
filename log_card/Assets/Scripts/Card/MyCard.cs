@@ -26,6 +26,7 @@ public class MyCard : MonoBehaviour
     }
     public void AddCard(Card newCard)
     {
+        if (newCard == null) return;
         GameObject newCardObj = Instantiate(emptyCard);
         newCardObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = newCard.name;
         newCardObj.transform.Find("Cost").GetComponent<TextMeshProUGUI>().text = newCard.cost.ToString();
@@ -34,19 +35,14 @@ public class MyCard : MonoBehaviour
         newCardObj.transform.SetParent(myCard.transform);
         newCardObj.transform.localScale = new Vector2(1, 1);
         newCardObj.transform.localPosition = new Vector3(0,0,-1);
-        List<Vector2> vec =  SetPos(cardObjects.Count);
-
         newCardObj.GetComponent<CardCtrl>().card = newCard;
         cardObjects.Add(newCardObj.GetComponent<CardCtrl>());
-        for(int i = 0; i < cardObjects.Count; i++)
-        {
-            cardObjects[i].pos = vec[i];
-        }
-        Debug.Log(cardObjects.Count + " " + vec.Count);
+        SetPos();
 
     }
-    public List<Vector2> SetPos(int num)
+    public void SetPos()
     {
+        int num = cardObjects.Count-1;
         List<Vector2> pos = new List<Vector2>();
         int startX = -250 * num / 2;
         int endX = 250 * num / 2;
@@ -54,7 +50,11 @@ public class MyCard : MonoBehaviour
         {
             pos.Add(new Vector2(i, -300));
         }
-        return pos;
+        for (int i = 0; i < cardObjects.Count; i++)
+        {
+            cardObjects[i].pos = pos[i];
+        }
+
     }
     private CardCtrl RaycastCard()
     {

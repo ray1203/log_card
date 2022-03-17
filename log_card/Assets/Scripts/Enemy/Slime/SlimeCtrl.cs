@@ -38,7 +38,7 @@ public class SlimeCtrl : MonoBehaviour
         moveSpeed = maxMoveSpeed;
         gameObject.GetComponent<EnemyHp>().hp = maxHp;
         moveRoot = new Vector2[1000];
-        if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.checkWall(transform.position, player.transform.position))
+        if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.CheckWall(transform.position, player.transform.position))
         {
             moveFlag = 0;
         }
@@ -68,7 +68,7 @@ public class SlimeCtrl : MonoBehaviour
         checkTimer += Time.deltaTime;
         if (moveFlag!=2 && checkTimer >= checkCool)
         {
-            if (GameManager.instance.checkWall(transform.position, player.transform.position))
+            if (GameManager.instance.CheckWall(transform.position, player.transform.position))
             {
                 checkTimer = 0;
                 CheckRoot(1);
@@ -77,7 +77,7 @@ public class SlimeCtrl : MonoBehaviour
             {
                 moveFlag = 0;
             }
-        } else if (GameManager.instance.checkWall(transform.position, player.transform.position)&&moveFlag==0)
+        } else if (GameManager.instance.CheckWall(transform.position, player.transform.position)&&moveFlag==0)
         {
             CheckRoot(1);
         }
@@ -111,7 +111,7 @@ public class SlimeCtrl : MonoBehaviour
                                 moveLen = 0;
                             }else if(moveFlag == 2)
                             {
-                                if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.checkWall(transform.position, player.transform.position))
+                                if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.CheckWall(transform.position, player.transform.position))
                                 {
                                     moveFlag = 0;
                                     checkTimer = checkCool;

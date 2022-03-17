@@ -42,6 +42,7 @@ public class CardCtrl : MonoBehaviour
                     card.func();
                     GameManager.instance.myCard.cardObjects.Remove(this);
                     Destroy(this.gameObject);
+                    GameManager.instance.myCard.SetPos();
                 }
                 else
                 {

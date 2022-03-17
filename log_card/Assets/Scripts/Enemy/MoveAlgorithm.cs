@@ -129,7 +129,7 @@ public class MoveAlgorithm : MonoBehaviour
             for (int j=0;j<4;j++)
             {
                 Vector2 newRoot = root[i - 1] + dxy[j];
-                if (arr[(int)newRoot.x, (int)newRoot.y]||GameManager.instance.checkWall(newRoot, startPos)){
+                if (arr[(int)newRoot.x, (int)newRoot.y]||GameManager.instance.CheckWall(newRoot, startPos)){
                     continue;
                 }
                 else
