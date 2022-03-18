@@ -76,11 +76,13 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
-    public void DropCard(Vector2 pos)
+    public GameObject DropCard(Vector2 pos,bool shopCard = false)
     {
         GameObject newObject = Instantiate(droppedCard);
         newObject.transform.SetParent(canvas.transform);
         newObject.GetComponent<DroppedCard>().RandomSetting();
         newObject.GetComponent<DroppedCard>().pos = pos;
+        newObject.GetComponent<DroppedCard>().shopCard = shopCard;
+        return newObject;
     }
 }

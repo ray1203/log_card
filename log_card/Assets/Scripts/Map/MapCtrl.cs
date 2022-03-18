@@ -9,6 +9,7 @@ public class MapCtrl : MonoBehaviour
     public enum RoomType {battle,shop,heal,boss};
     public List<GameObject> battleMaps;
     public GameObject healMap;
+    public GameObject shopMap;
     private GameObject currentMap=null;
     private GameObject gate1, gate2;
     private GameObject icon1, icon2;
@@ -41,7 +42,10 @@ public class MapCtrl : MonoBehaviour
                 if (currentMap != null) Destroy(currentMap);
                 currentMap = Instantiate(healMap);
                 break;
-
+            case RoomType.shop:
+                if (currentMap != null) Destroy(currentMap);
+                currentMap = Instantiate(shopMap);
+                break;
             default:break;
         }
         GameManager.instance.grid = currentMap.transform.Find("Grid").GetComponent<Grid>();

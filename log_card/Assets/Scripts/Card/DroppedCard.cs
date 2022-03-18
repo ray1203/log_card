@@ -8,6 +8,7 @@ public class DroppedCard : MonoBehaviour
 {
     public Card card;
     public Vector2 pos;
+    public bool shopCard = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,10 +35,15 @@ public class DroppedCard : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")&&Input.GetKeyDown(KeyCode.E))
+        if (collision.CompareTag("Player")&&Input.GetKey(KeyCode.E))
         {
             GameManager.instance.deck.AddCard(card);
-            Destroy(gameObject);
+            if (shopCard)
+            {
+                GameObject.FindObjectOfType<Shop>().DeleteAll();
+            }
+            else
+                Destroy(gameObject);
         }
     }
 }
