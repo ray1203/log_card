@@ -5,7 +5,9 @@ using UnityEngine.Tilemaps;
 
 public class MoveAlgorithm : MonoBehaviour
 {
+    [SerializeField]
     private Tilemap tilemap;
+    [SerializeField]
     bool[,] arr = new bool[1000,1000];//true: Àå¾Ö¹°
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,10 @@ public class MoveAlgorithm : MonoBehaviour
                 if (RayCastTile(i, j))
                 {
                     arr[i, j] = true;
+                }
+                else
+                {
+                    arr[i, j] = false;
                 }
             }
         }

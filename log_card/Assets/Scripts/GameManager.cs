@@ -20,9 +20,11 @@ public class GameManager : MonoBehaviour
     public GameObject explode;
     public GameObject fireball;
     public GameObject iceShield;
+    public GameObject bullet;
     public GameObject droppedCard;
     public GameObject deckUI;
     public float shuffleTimer;
+    public List<GameObject> droppedCards;
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,12 +35,12 @@ public class GameManager : MonoBehaviour
         cardData = new CardData();
         cardData.DataSet();
         deck = new Deck();
+        droppedCards = new List<GameObject>();
     }
     private void Start()
     {
         for (int i = 0; i < cardData.cards.Count/2; i++)
             deck.AddCard(cardData.cards[i]);
-        DropCard(new Vector2(20, 20));
     }
     private void Update()
     {
@@ -83,6 +85,16 @@ public class GameManager : MonoBehaviour
         newObject.GetComponent<DroppedCard>().RandomSetting();
         newObject.GetComponent<DroppedCard>().pos = pos;
         newObject.GetComponent<DroppedCard>().shopCard = shopCard;
+        droppedCards.Add(newObject);
+
         return newObject;
+    }
+    public void EraseDroppedCards()
+    {
+        Debug.Log("droppedCards: " + droppedCards.Count);
+        for(int i = 0; i < droppedCards.Count; i++)
+        {
+            Destroy(droppedCards[i]);
+        }
     }
 }

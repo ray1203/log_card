@@ -30,6 +30,7 @@ public class MapCtrl : MonoBehaviour
     }
     public void CreateMap(RoomType type)//0: battle 1: shop 2: heal 3:boss
     {
+        GameManager.instance.EraseDroppedCards();
         switch (type)
         {
             case RoomType.battle:

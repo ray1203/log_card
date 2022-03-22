@@ -82,7 +82,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         amount -= (int)BuffManager.instance.GetValue(BuffStat.absolDef);
         Debug.Log((BuffManager.instance.GetValue(BuffStat.def)));
-        amount = (int)((float)amount * (BuffManager.instance.GetValue(BuffStat.def) - 1f));
+        amount = (int)((float)amount * (Mathf.Max(0,2f-(BuffManager.instance.GetValue(BuffStat.def)))));
         if (amount < 0) amount = 0;
         hp -= amount;
         hpBar.fillAmount = HpRatio();

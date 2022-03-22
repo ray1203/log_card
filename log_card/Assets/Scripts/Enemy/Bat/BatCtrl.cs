@@ -27,6 +27,7 @@ public class BatCtrl : MonoBehaviour
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
         gameObject.GetComponent<EnemyHp>().hp = maxHp;
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
