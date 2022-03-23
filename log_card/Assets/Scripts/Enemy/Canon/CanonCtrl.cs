@@ -18,7 +18,7 @@ public class CanonCtrl : MonoBehaviour
     private void Update()
     {
         attackTimer += Time.deltaTime;
-        if(!GameManager.instance.CheckWall(this.transform.position, GameManager.instance.player.transform.position))
+        if(/*!GameManager.instance.CheckWall(this.transform.position, GameManager.instance.player.transform.position)*/true)
         {
             Debug.Log("a");
             if (attackTimer >= attackCool && Vector2.Distance(transform.position, GameManager.instance.player.transform.position) <= attackDist)

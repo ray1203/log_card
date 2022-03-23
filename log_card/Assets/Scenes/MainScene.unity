@@ -1248,7 +1248,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!4 &1255768238
 Transform:
@@ -2045,6 +2045,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleMaps:
   - {fileID: 5850314302750403507, guid: 72a952a255fe0a14da3bf118a81aa536, type: 3}
+  - {fileID: 6397416369573542613, guid: f1578a499f6db9247b1a1812355355af, type: 3}
+  - {fileID: 8990405775965924394, guid: 1f107192b2440754aa3dbd56a7fa5183, type: 3}
   healMap: {fileID: 7609484545465118754, guid: f59e9c1d2ec5c714d80c697310585042, type: 3}
   shopMap: {fileID: 3847120141649262778, guid: 3d3224d11e3e2b942a8305acb0394d13, type: 3}
   shopIcon: {fileID: 21300000, guid: d2c0dc76eca05bb4eb4f3fc4a37f258d, type: 3}

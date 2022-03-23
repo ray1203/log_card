@@ -18,7 +18,9 @@ public class PlayerCtrl : MonoBehaviour
     private Image mpBar;
     private Text mpText;
     private GameObject attackCol;
-    
+    private float rollCool = 0.7f;
+    private float rollTimer = 0.7f;
+
     private void Start()
     {
         mp = 3;
@@ -37,17 +39,18 @@ public class PlayerCtrl : MonoBehaviour
     {
         if (BuffManager.instance.GetValue(BuffStat.stop) == 1)
         {
+            
             // 위, 아래로 움직이기
             if (Input.GetAxisRaw("Vertical") < 0)
             {
                 dir = 2;
-                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f));
+                //transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
             if (Input.GetAxisRaw("Vertical") > 0)
             {
                 dir = 3;
-                transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f));
+                //transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
             //좌 우
@@ -55,15 +58,27 @@ public class PlayerCtrl : MonoBehaviour
             {
                 sprite.flipX = false;
                 dir = 1;
-                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f, 0f));
+                //transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f, 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             if (Input.GetAxisRaw("Horizontal") < 0)
             {
                 sprite.flipX = true;
                 dir = 1;
-                transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f, 0f));
+                //transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f, 0f));
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, -90);
+            }
+            Vector3 nextPos = new Vector3(0, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f);
+            
+            if (!GameManager.instance.moveAlgorithm.arr[(int)(transform.position.x + nextPos.x+0.5f), (int)(transform.position.y + nextPos.y + 0.5f)])
+            {
+                transform.Translate(nextPos);
+            }
+            nextPos = new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0, 0f);
+
+            if (!GameManager.instance.moveAlgorithm.arr[(int)(transform.position.x + nextPos.x + 0.5f), (int)(transform.position.y + nextPos.y + 0.5f)])
+            {
+                transform.Translate(nextPos);
             }
             if (Input.GetMouseButton(0))
             {
@@ -76,7 +91,12 @@ public class PlayerCtrl : MonoBehaviour
                 animator.SetInteger("attack", -1);
                 animator.SetInteger("idle", dir);
             }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (rollTimer >= rollCool) Roll();
+            }
         }
+        rollTimer += Time.deltaTime;
     }
     public void Damaged(int amount)
     {
@@ -112,5 +132,11 @@ public class PlayerCtrl : MonoBehaviour
         mpBar.fillAmount = (float)mp / 10f;
         mpText.text = mp.ToString();
         return true;
+    }
+    public void Roll()
+    {
+        BuffManager.instance.AddBuff(BuffStat.absolDef, 100000, 0.3f);
+        BuffManager.instance.AddBuff(BuffStat.speed, 1.2f, 0.3f);
+        rollTimer = 0f;
     }
 }

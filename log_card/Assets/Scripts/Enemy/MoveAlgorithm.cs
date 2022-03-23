@@ -8,7 +8,7 @@ public class MoveAlgorithm : MonoBehaviour
     [SerializeField]
     private Tilemap tilemap;
     [SerializeField]
-    bool[,] arr = new bool[1000,1000];//true: 장애물
+    public bool[,] arr = new bool[1000,1000];//true: 장애물
     // Start is called before the first frame update
     void Start()
     {
