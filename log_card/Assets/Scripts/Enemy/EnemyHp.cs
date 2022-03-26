@@ -5,9 +5,11 @@ using UnityEngine;
 public class EnemyHp : MonoBehaviour
 {
     public int hp;
+    private float defence = 1f;
     public int dropPer = 1;//1 == 10(%)
     public void Damaged(int amount)
     {
+        amount=(int)((float)amount*defence);
         //Debug.Log(gameObject.name + " damaged "+amount);
         hp -= amount;
         if (hp <= 0) {
@@ -25,5 +27,9 @@ public class EnemyHp : MonoBehaviour
         if (r <= dropPer) GameManager.instance.DropCard(this.transform.position);
         //GameManager.instance.player.gameObject.GetComponent<PlayerAttackCol>().removeEnemy(this);
         Destroy(this.gameObject);
+    }
+    public void ChangeDefence(float value)
+    {
+        defence = value;
     }
 }

@@ -7,19 +7,22 @@ public class MapCtrl : MonoBehaviour
 {
     // Start is called before the first frame update
     public enum RoomType {battle,shop,heal,boss};
+    public int mapCount;
     public List<GameObject> battleMaps;
     public GameObject healMap;
     public GameObject shopMap;
+    public GameObject bossMap;
     private GameObject currentMap=null;
     private GameObject gate1, gate2;
     private GameObject icon1, icon2;
     private GameObject enemy;
     private GameObject block;
-    public Sprite shopIcon, healIcon;
+    public Sprite shopIcon, healIcon,bossIcon;
     private bool flag=true;//true: 방 종류 정해짐 
     void Start()
     {
         CreateMap(0);
+        mapCount = 0;
     }
 
     // Update is called once per frame
@@ -30,6 +33,7 @@ public class MapCtrl : MonoBehaviour
     }
     public void CreateMap(RoomType type)//0: battle 1: shop 2: heal 3:boss
     {
+        mapCount++;
         GameManager.instance.EraseDroppedCards();
         switch (type)
         {
@@ -47,6 +51,11 @@ public class MapCtrl : MonoBehaviour
                 if (currentMap != null) Destroy(currentMap);
                 currentMap = Instantiate(shopMap);
                 break;
+            case RoomType.boss:
+                if (currentMap != null) Destroy(currentMap);
+                currentMap = Instantiate(bossMap);
+                break;
+
             default:break;
         }
         GameManager.instance.grid = currentMap.transform.Find("Grid").GetComponent<Grid>();
@@ -71,6 +80,7 @@ public class MapCtrl : MonoBehaviour
             gate1.GetComponent<TilemapCollider2D>().isTrigger = true;
             gate2.GetComponent<TilemapCollider2D>().isTrigger = true;
             int rand = Random.Range(1,11);
+            if (mapCount >= 10) rand = -1;
             if (rand == 1)
             {
                 icon1.GetComponent<SpriteRenderer>().sprite = shopIcon;
@@ -80,12 +90,18 @@ public class MapCtrl : MonoBehaviour
                 icon1.GetComponent<SpriteRenderer>().sprite = healIcon;
                 gate1.GetComponent<Gate>().roomType = RoomType.heal;
             }
+            else if (rand == -1)
+            {
+                icon1.GetComponent<SpriteRenderer>().sprite = bossIcon;
+                gate1.GetComponent<Gate>().roomType = RoomType.boss;
+            }
             else
             {
                 icon1.GetComponent<SpriteRenderer>().sprite = null;
                 gate1.GetComponent<Gate>().roomType = RoomType.battle;
             }
             rand = Random.Range(1, 11);
+            if (mapCount >= 10) rand = -1;
             if (rand == 1)
             {
                 icon2.GetComponent<SpriteRenderer>().sprite = shopIcon;
@@ -95,6 +111,10 @@ public class MapCtrl : MonoBehaviour
             {
                 icon2.GetComponent<SpriteRenderer>().sprite = healIcon;
                 gate2.GetComponent<Gate>().roomType = RoomType.heal;
+            }else if (rand == -1)
+            {
+                icon2.GetComponent<SpriteRenderer>().sprite = bossIcon;
+                gate2.GetComponent<Gate>().roomType = RoomType.boss;
             }
             else
             {

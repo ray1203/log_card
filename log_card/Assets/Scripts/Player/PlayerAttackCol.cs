@@ -22,11 +22,13 @@ public class PlayerAttackCol : MonoBehaviour
             Attack();
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
         {
-            enemyList.Add(collision.gameObject.GetComponent<EnemyHp>());
+            EnemyHp enemy = collision.gameObject.GetComponent<EnemyHp>();
+            if (!enemyList.Contains(enemy))
+                enemyList.Add(enemy);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

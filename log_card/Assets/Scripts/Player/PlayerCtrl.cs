@@ -18,8 +18,8 @@ public class PlayerCtrl : MonoBehaviour
     private Image mpBar;
     private Text mpText;
     private GameObject attackCol;
-    private float rollCool = 0.7f;
-    private float rollTimer = 0.7f;
+    private float rollCool = 0.5f;
+    private float rollTimer = 0.5f;
 
     private void Start()
     {
