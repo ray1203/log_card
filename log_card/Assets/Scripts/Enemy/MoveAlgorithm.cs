@@ -24,6 +24,8 @@ public class MoveAlgorithm : MonoBehaviour
     {
         tilemap = GameManager.instance.tilemap;
         tilemap.GetComponent<TilemapCollider2D>().usedByComposite = false;
+        for (int i = 0; i <= 50; i++) for (int j = 0; j <= 50; j++) arr[i, j] = false;
+        string str="";
         for (int i = 0; i <= 50; i++)
         {
             for (int j = 0; j <= 50; j++)
@@ -32,14 +34,20 @@ public class MoveAlgorithm : MonoBehaviour
                 if (RayCastTile(i, j))
                 {
                     arr[i, j] = true;
+                    str += "¤±";
                 }
                 else
                 {
                     arr[i, j] = false;
+                    str += "¤·";
                 }
             }
+            str += "\n";
         }
+        Debug.Log(str);
         tilemap.GetComponent<TilemapCollider2D>().usedByComposite = true;
+
+
     }
     public Vector2[] FindRoot(Vector2 startPos, Vector2 endPos)
     {
@@ -168,7 +176,7 @@ public class MoveAlgorithm : MonoBehaviour
                 if (hit[i].transform.GetComponent<TilemapCollider2D>() != null && !hit[i].transform.GetComponent<TilemapCollider2D>().isTrigger)
                 {
                     //Debug.Log(x + "," + y + "," + hit.point);
-                    //GameManager.instance.makePing(hit[i].point);
+                    //GameManager.instance.MakePing(hit[i].point,GameManager.instance.ping,3);
                     return true;
                 }
             }

@@ -20,7 +20,10 @@ public class Gate : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            GameManager.instance.mapCtrl.CreateMap(roomType);
+            if (roomType == MapCtrl.RoomType.victory)
+            {
+                GameManager.instance.tabCtrl.Victory();
+            }else  GameManager.instance.mapCtrl.CreateMap(roomType);
         }
     }
 }

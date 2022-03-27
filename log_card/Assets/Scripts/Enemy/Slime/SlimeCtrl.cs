@@ -19,7 +19,7 @@ public class SlimeCtrl : MonoBehaviour
     private bool enterPlayer = false;
 
     private float checkCool = 3f;
-    private float checkTimer = 3f;
+    private float checkTimer = 2.5f;
     private Vector2[] moveRoot;
     private int moveIdx = 0;
     private int moveLen = 0;

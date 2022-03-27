@@ -32,46 +32,49 @@ public class GolemCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!attack)
+        if (hp.hp > 0)
         {
-            Move();
-        }
-        else
-        {
-            animator.SetBool("Run", false);
-        }
-        if(Vector2.Distance(playerTransform.position, transform.position) <= 2f&&attack2Cool<=attack2Timer)
-        {
-            attack2Timer = 0f;
-            if (!reinforced)
-                Attack2Start();
-            else
-                ReinforcedAttack2Start();
-        }
-        attack2Timer += Time.deltaTime;
-
-        if (hp.hp <= abilityHp && !ability && !attack&&!reinforced)
-        {
-            Debug.Log("Abilstart");
-            AbilityStart();
-        }
-        if (ability)
-        {
-            abilityTimer += Time.deltaTime;
-            if(hp.hp < abilityHp - 50)
+            if (!attack)
             {
-                abilityHp -= maxHp / 4;
-                abilityTimer = 0f;
-                Debug.Log("변신실패");
-                Attack1Start();
+                Move();
             }
-            else if (abilityTimer >= 5f&&hp.hp >= abilityHp - 50)
+            else
             {
-                abilityHp -= maxHp / 4;
-                abilityTimer = 0f;
-                ReinforceStart();
-                Debug.Log("변신");
-                
+                animator.SetBool("Run", false);
+            }
+            if (Vector2.Distance(playerTransform.position, transform.position) <= 2f && attack2Cool <= attack2Timer)
+            {
+                attack2Timer = 0f;
+                if (!reinforced)
+                    Attack2Start();
+                else
+                    ReinforcedAttack2Start();
+            }
+            attack2Timer += Time.deltaTime;
+
+            if (hp.hp <= abilityHp && !ability && !attack && !reinforced)
+            {
+                Debug.Log("Abilstart");
+                AbilityStart();
+            }
+            if (ability)
+            {
+                abilityTimer += Time.deltaTime;
+                if (hp.hp < abilityHp - 50)
+                {
+                    abilityHp -= maxHp / 4;
+                    abilityTimer = 0f;
+                    Debug.Log("변신실패");
+                    Attack1Start();
+                }
+                else if (abilityTimer >= 5f && hp.hp >= abilityHp - 50)
+                {
+                    abilityHp -= maxHp / 4;
+                    abilityTimer = 0f;
+                    ReinforceStart();
+                    Debug.Log("변신");
+
+                }
             }
         }
     }
@@ -220,5 +223,9 @@ public class GolemCtrl : MonoBehaviour
     public void ReinforcedAttack1End()
     {
         attack = false;
+    }
+    public void OnDeath()
+    {
+        Destroy(gameObject);
     }
 }

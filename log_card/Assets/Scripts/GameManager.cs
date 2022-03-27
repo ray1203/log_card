@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public CardData cardData;
     public Deck deck;
     public List<Sprite> cardSprites;
+    public TabCtrl tabCtrl;
     public MyCard myCard;
     public GameObject crosshair;
     public GameObject explode;
@@ -36,14 +37,16 @@ public class GameManager : MonoBehaviour
         cardData.DataSet();
         deck = new Deck();
         droppedCards = new List<GameObject>();
+        tabCtrl = GetComponent<TabCtrl>();
     }
     private void Start()
     {
-        for (int i = 0; i < cardData.cards.Count/2; i++)
-            deck.AddCard(cardData.cards[i]);
+        Time.timeScale = 1;
+        for (int i = 0; i < 4; i++) deck.AddCard(cardData.cards[Random.Range(0, cardData.cards.Count)]);
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q)) myCard.myCard.SetActive(!myCard.myCard.activeSelf);
         if (deck.shuffleCool)
         {
             shuffleTimer += Time.deltaTime;

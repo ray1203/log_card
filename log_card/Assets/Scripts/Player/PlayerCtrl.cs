@@ -12,7 +12,7 @@ public class PlayerCtrl : MonoBehaviour
     private int hp;
     private int maxHp = 100;
     private int mp;
-    private int damage = 100;//10
+    private int damage = 20;//10
     private float attackRate = 0.5f;
     private Image hpBar;
     private Image mpBar;
@@ -69,17 +69,19 @@ public class PlayerCtrl : MonoBehaviour
                 attackCol.transform.rotation = Quaternion.Euler(0, 0, -90);
             }
             Vector3 nextPos = new Vector3(0, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0f);
-            
-            if (!GameManager.instance.moveAlgorithm.arr[(int)(transform.position.x + nextPos.x+0.5f), (int)(transform.position.y + nextPos.y + 0.5f)])
+
+            if (!GameManager.instance.moveAlgorithm.arr[(int)(transform.position.x + nextPos.x + 0.5f), (int)(transform.position.y + nextPos.y + 0.5f)])
             {
                 transform.Translate(nextPos);
             }
+            else Debug.Log("cant move(vertical)");
             nextPos = new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime * (BuffManager.instance.GetValue(BuffStat.speed)), 0, 0f);
 
             if (!GameManager.instance.moveAlgorithm.arr[(int)(transform.position.x + nextPos.x + 0.5f), (int)(transform.position.y + nextPos.y + 0.5f)])
             {
                 transform.Translate(nextPos);
             }
+            else Debug.Log("cant move(horizontal)");
             if (Input.GetMouseButton(0))
             {
                 attackCol.SetActive(true);
@@ -105,6 +107,7 @@ public class PlayerCtrl : MonoBehaviour
         amount = (int)((float)amount * (Mathf.Max(0,2f-(BuffManager.instance.GetValue(BuffStat.def)))));
         if (amount < 0) amount = 0;
         hp -= amount;
+        if (hp <= 0) GameManager.instance.tabCtrl.GameOver();
         hpBar.fillAmount = HpRatio();
     }
     public float HpRatio()

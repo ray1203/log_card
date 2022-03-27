@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class MapCtrl : MonoBehaviour
 {
     // Start is called before the first frame update
-    public enum RoomType {battle,shop,heal,boss};
+    public enum RoomType {battle,shop,heal,boss,victory};
     public int mapCount;
     public List<GameObject> battleMaps;
     public GameObject healMap;
@@ -68,9 +68,16 @@ public class MapCtrl : MonoBehaviour
         icon2 = GameManager.instance.grid.transform.Find("icon2").gameObject;
         enemy = currentMap.transform.Find("Enemy").gameObject;
         block = GameManager.instance.grid.transform.Find("block").gameObject;
-        GameManager.instance.moveAlgorithm.SetMap();
         GameManager.instance.player.transform.position = new Vector2(21, 9);
+        StartCoroutine("ActivateSetMap");
         flag = false;
+    }
+    IEnumerator ActivateSetMap()
+    {
+
+        yield return new WaitForSeconds(0.05f);
+        GameManager.instance.moveAlgorithm.SetMap();
+
     }
     public void EnemyCheck()
     {
@@ -80,7 +87,8 @@ public class MapCtrl : MonoBehaviour
             gate1.GetComponent<TilemapCollider2D>().isTrigger = true;
             gate2.GetComponent<TilemapCollider2D>().isTrigger = true;
             int rand = Random.Range(1,11);
-            if (mapCount >= 10) rand = -1;
+            if (mapCount == 10) rand = -1;
+            if (mapCount == 11) rand = -2;
             if (rand == 1)
             {
                 icon1.GetComponent<SpriteRenderer>().sprite = shopIcon;
@@ -95,13 +103,19 @@ public class MapCtrl : MonoBehaviour
                 icon1.GetComponent<SpriteRenderer>().sprite = bossIcon;
                 gate1.GetComponent<Gate>().roomType = RoomType.boss;
             }
+            else if (rand == -2)
+            {
+                icon1.GetComponent<SpriteRenderer>().sprite = null;
+                gate1.GetComponent<Gate>().roomType = RoomType.victory;
+            }
             else
             {
                 icon1.GetComponent<SpriteRenderer>().sprite = null;
                 gate1.GetComponent<Gate>().roomType = RoomType.battle;
             }
             rand = Random.Range(1, 11);
-            if (mapCount >= 10) rand = -1;
+            if (mapCount == 10) rand = -1;
+            if (mapCount == 11) rand = -2;
             if (rand == 1)
             {
                 icon2.GetComponent<SpriteRenderer>().sprite = shopIcon;
@@ -116,11 +130,17 @@ public class MapCtrl : MonoBehaviour
                 icon2.GetComponent<SpriteRenderer>().sprite = bossIcon;
                 gate2.GetComponent<Gate>().roomType = RoomType.boss;
             }
+            else if (rand == -2)
+            {
+                icon2.GetComponent<SpriteRenderer>().sprite = null;
+                gate2.GetComponent<Gate>().roomType = RoomType.victory;
+            }
             else
             {
                 icon2.GetComponent<SpriteRenderer>().sprite = null;
                 gate2.GetComponent<Gate>().roomType = RoomType.battle;
             }
+
             flag = true;
             gate1.SetActive(true);
             gate2.SetActive(true);
