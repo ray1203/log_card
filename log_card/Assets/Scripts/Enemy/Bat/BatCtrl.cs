@@ -17,6 +17,7 @@ public class BatCtrl : MonoBehaviour
     public bool attack = false;
     private EnemyAttackCol attackCol;
     private bool enterPlayer = false;
+    private EnemyHp enemyHp;
     void Start()
     {
         player = GameManager.instance.player;
@@ -26,7 +27,8 @@ public class BatCtrl : MonoBehaviour
         attackCol.GetComponent<EnemyAttackCol>().damage = damage;
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
-        gameObject.GetComponent<EnemyHp>().hp = maxHp;
+        enemyHp = gameObject.GetComponent<EnemyHp>();
+        enemyHp.hp = maxHp;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -62,6 +64,7 @@ public class BatCtrl : MonoBehaviour
     {
         attackTimer = 0f;
         //Debug.Log("AttackStart");
+        enemyHp.attack = true;
         animator.SetTrigger("Attack");
         moveSpeed = 7f;
     }
@@ -79,6 +82,7 @@ public class BatCtrl : MonoBehaviour
         attackCol.attackChance = false;
         //Debug.Log("AttackEnd");
         attack = false;
+        enemyHp.attack = false;
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
         attackTimer = 0f;

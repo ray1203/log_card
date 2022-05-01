@@ -38,7 +38,16 @@ public class CardCtrl : MonoBehaviour
                 GameManager.instance.crosshair.SetActive(false);
                 Time.timeScale = 1f;
                 control = false;
-                if (GameManager.instance.player.UseMp(card.cost)) {
+                if (CheckTrash())
+                {
+                    if (GameManager.instance.player.UseMp(1))
+                    {
+                        GameManager.instance.myCard.cardObjects.Remove(this);
+                        Destroy(this.gameObject);
+                        GameManager.instance.myCard.SetPos();
+                    }
+                }
+                else if (GameManager.instance.player.UseMp(card.cost)) {
                     card.func();
                     GameManager.instance.myCard.cardObjects.Remove(this);
                     Destroy(this.gameObject);
@@ -54,5 +63,17 @@ public class CardCtrl : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         
     }
-
+    private bool CheckTrash()
+    {
+        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D[] raycastHit2D = Physics2D.RaycastAll(pos, Vector2.zero);
+        for (int i = 0; i < raycastHit2D.Length; i++)
+        {
+            if (raycastHit2D[i].transform.CompareTag("Trash"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

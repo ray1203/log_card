@@ -218,6 +218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 0
+  dropPer: 1
+  attack: 0
 --- !u!114 &3817670083980834135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,3 +234,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack1: 0
   attack2: 0
+  moveFlag: 2
+  nextRoot: {x: 0, y: 0}

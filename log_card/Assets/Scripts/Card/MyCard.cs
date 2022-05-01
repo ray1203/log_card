@@ -17,7 +17,7 @@ public class MyCard : MonoBehaviour
         CardCtrl selectedCard = RaycastCard();
         if (selectedCard != null)
         {
-            Time.timeScale = 0f;
+            Time.timeScale = 0.00f;
             selectedCard.control = true;
 
 

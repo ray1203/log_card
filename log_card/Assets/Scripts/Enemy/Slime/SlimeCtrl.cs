@@ -24,7 +24,7 @@ public class SlimeCtrl : MonoBehaviour
     private int moveIdx = 0;
     private int moveLen = 0;
     public int moveFlag = 2;//0: 기본 이동, 1: 장애물 피해서 이동 ,2: 무작위 이동
-
+    private EnemyHp enemyHp;
     public Vector2 nextRoot;//디버그용 
     private int recognizeRange = 10;
     void Start()
@@ -36,7 +36,8 @@ public class SlimeCtrl : MonoBehaviour
         attackCol.GetComponent<EnemyAttackCol>().damage = damage;
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
-        gameObject.GetComponent<EnemyHp>().hp = maxHp;
+        enemyHp = gameObject.GetComponent<EnemyHp>();
+        enemyHp.hp = maxHp;
         moveRoot = new Vector2[1000];
         if (Vector2.Distance(transform.position, player.transform.position) <= recognizeRange && !GameManager.instance.CheckWall(transform.position, player.transform.position))
         {
@@ -162,9 +163,15 @@ public class SlimeCtrl : MonoBehaviour
     }
     void Move(Vector2 movePos)
     {
-        transform.position = Vector2.MoveTowards(transform.position, movePos, moveSpeed * Time.deltaTime);
+        Vector2 nextPos = Vector2.MoveTowards(transform.position, movePos, moveSpeed * Time.deltaTime);
+       // if (!GameManager.instance.moveAlgorithm.arr[(int)(transform.position.x + nextPos.x + 0.5f), (int)(transform.position.y + nextPos.y + 0.5f)])
+            transform.position = nextPos;
         if (transform.position.x > player.transform.position.x) sprite.flipX = true;
         else sprite.flipX = false;
+    }
+    public void AttackStart()
+    {
+        enemyHp.attack = true;
     }
     void Attack1Start()
     {
@@ -201,5 +208,6 @@ public class SlimeCtrl : MonoBehaviour
         attack2 = false;
         //attackCol.gameObject.SetActive(false);
         moveSpeed = maxMoveSpeed;
+        enemyHp.attack = false;
     }
 }

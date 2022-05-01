@@ -7,10 +7,18 @@ public class MainToStart : MonoBehaviour
 {
     void Update()
     {
-        if (Input.anyKey)
-        {
-            SceneManager.LoadScene("MainScene");
-
-        }
+        
+    }
+    public void StartBtn()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
+    public void TutoBtn()
+    {
+        SceneManager.LoadScene("TutoScene");
+    }
+    public void QuitBtn()
+    {
+        Application.Quit();
     }
 }

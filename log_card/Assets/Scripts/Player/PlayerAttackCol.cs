@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerAttackCol : MonoBehaviour
 {
     public int damage;
@@ -42,6 +41,7 @@ public class PlayerAttackCol : MonoBehaviour
     {
         for(int i = 0; i < enemyList.Count; i++)
         {
+            
             GameManager.instance.player.AddMp(1);
             enemyList[i].Damaged(damage);
         }

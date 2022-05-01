@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject deckUI;
     public float shuffleTimer;
     public List<GameObject> droppedCards;
+    public GameObject damageText;
     // Start is called before the first frame update
     void Awake()
     {
