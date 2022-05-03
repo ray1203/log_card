@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class BatCtrl : MonoBehaviour
 {
     private int maxHp = 20;
-    private int damage = 10;
+    private int damage = 6;
     private float moveSpeed = 3f;
     private float maxMoveSpeed = 3f;
     private float attackDist = 3f;

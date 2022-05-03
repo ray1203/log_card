@@ -107,12 +107,15 @@ class Buff
         this.duration = duration;
         this.value = value;
         this.name = name;
-        if (value > 0) BuffManager.buffValue[(int)buffStat] += value;
-        else BuffManager.buffValue[(int)buffStat] *= 1 + value;
+        //if (value > 0) BuffManager.buffValue[(int)buffStat] += value;
+        //else BuffManager.buffValue[(int)buffStat] *= 1 + value;
+        BuffManager.buffValue[(int)buffStat] *= value;
+
     }
     public void OnDelete()
     {
-        if (value > 0) BuffManager.buffValue[(int)buffStat] -= value;
-        else BuffManager.buffValue[(int)buffStat] /= 1 + value;
+        //if (value > 0) BuffManager.buffValue[(int)buffStat] -= value;
+        //else BuffManager.buffValue[(int)buffStat] /= 1 + value;
+        BuffManager.buffValue[(int)buffStat] /= value;
     }
 }

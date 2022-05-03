@@ -30,13 +30,13 @@ public class CardData
 
         cards.Add(new Card(3, "경량화", "더 빨라집니다.", delegate
         { 
-            BuffManager.instance.AddBuff(BuffStat.speed, 0.5f, 20); 
+            BuffManager.instance.AddBuff(BuffStat.speed, 1.5f, 20); 
         }, GameManager.instance.cardSprites[3]));
 
         cards.Add(new Card(3, "강철 신체", "느려지지만 피해를 덜 받습니다.", delegate
         {
-            BuffManager.instance.AddBuff(BuffStat.speed, -0.3f, 20);
-            BuffManager.instance.AddBuff(BuffStat.def, 0.5f, 20);
+            BuffManager.instance.AddBuff(BuffStat.speed, 0.7f, 20);
+            BuffManager.instance.AddBuff(BuffStat.def, 1.5f, 20);
         }, GameManager.instance.cardSprites[4]));
 
         cards.Add(new Card(3, "얼음 방패", "잠시 무적이 됩니다.", delegate
@@ -48,8 +48,8 @@ public class CardData
 
         cards.Add(new Card(6, "광분화", "공격력과 이동속도가 증가합니다.", delegate
            {
-               BuffManager.instance.AddBuff(BuffStat.damage, 0.3f, 10);
-               BuffManager.instance.AddBuff(BuffStat.speed, 0.2f, 10);
+               BuffManager.instance.AddBuff(BuffStat.damage, 1.3f, 10);
+               BuffManager.instance.AddBuff(BuffStat.speed, 1.2f, 10);
            }, GameManager.instance.cardSprites[6]
         ));
 

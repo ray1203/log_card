@@ -8,9 +8,11 @@ public class MyCard : MonoBehaviour
     public List<CardCtrl> cardObjects;
     public GameObject emptyCard;
     public GameObject myCard;
+    private float scaleSet = 1f;
     private void Start()
     {
         cardObjects = new List<CardCtrl>();
+        scaleSet = Screen.width / 2560.0f;
     }
     private void Update()
     {
@@ -32,7 +34,7 @@ public class MyCard : MonoBehaviour
         newCardObj.transform.Find("Desc").GetComponent<TextMeshProUGUI>().text = newCard.txt;
         newCardObj.transform.Find("Image").GetComponent<Image>().sprite = newCard.sprite;
         newCardObj.transform.SetParent(myCard.transform);
-        newCardObj.transform.localScale = new Vector2(1, 1);
+        newCardObj.transform.localScale = new Vector2(scaleSet, scaleSet);
         newCardObj.transform.localPosition = new Vector3(0,0,-1);
         newCardObj.GetComponent<CardCtrl>().card = newCard;
         cardObjects.Add(newCardObj.GetComponent<CardCtrl>());
@@ -43,9 +45,9 @@ public class MyCard : MonoBehaviour
     {
         int num = cardObjects.Count-1;
         List<Vector2> pos = new List<Vector2>();
-        int startX = -250 * num / 2;
-        int endX = 250 * num / 2;
-        for(int i = startX; i <= endX; i += 250)
+        int startX = -(int)(250.0f*scaleSet) * num / 2;
+        int endX = (int)(250.0f * scaleSet) * num / 2+1;
+        for(int i = startX; i <= endX; i += (int)(250.0f * scaleSet))
         {
             pos.Add(new Vector2(i, -300));
         }

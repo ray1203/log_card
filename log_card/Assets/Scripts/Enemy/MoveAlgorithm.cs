@@ -53,8 +53,8 @@ public class MoveAlgorithm : MonoBehaviour
     {
         //startPos = new Vector2((int)startPos.x, (int)startPos.y);
         //endPos = new Vector2((int)endPos.x, (int)endPos.y);
-        startPos = new Vector2((int)(startPos.x+0.5f), (int)(startPos.y+0.5f));
-        endPos = new Vector2((int)(endPos.x+0.5f), (int)(endPos.y+0.5f));
+        startPos = new Vector2((int)(startPos.x), (int)(startPos.y));
+        endPos = new Vector2((int)(endPos.x), (int)(endPos.y));
 
         Vector2[] dxy = new Vector2[4];
         dxy[0] = new Vector2(0, 1);
@@ -124,7 +124,7 @@ public class MoveAlgorithm : MonoBehaviour
     public Vector2[] FindRandomRoot(Vector2 startPos)
     {
         //startPos = new Vector2((int)startPos.x, (int)startPos.y);
-        startPos = new Vector2((int)(startPos.x+0.5f), (int)(startPos.y+0.5f));
+        startPos = new Vector2((int)(startPos.x), (int)(startPos.y));
         Vector2[] dxy = new Vector2[4];
         dxy[0] = new Vector2(0, 1);
         dxy[1] = new Vector2(0, -1);
@@ -147,7 +147,7 @@ public class MoveAlgorithm : MonoBehaviour
             for (int j=0;j<4;j++)
             {
                 Vector2 newRoot = root[i - 1] + dxy[j];
-                if (arr[(int)(newRoot.x+0.5f), (int)(newRoot.y+0.5f)]||GameManager.instance.CheckWall(newRoot, startPos)){
+                if (arr[(int)(newRoot.x), (int)(newRoot.y)]||GameManager.instance.CheckWall(newRoot, startPos)){
                     continue;
                 }
                 else

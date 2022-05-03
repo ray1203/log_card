@@ -43,7 +43,7 @@ public class PlayerAttackCol : MonoBehaviour
         {
             
             GameManager.instance.player.AddMp(1);
-            enemyList[i].Damaged(damage);
+            enemyList[i].Damaged((int)((float)damage*BuffManager.instance.GetValue(BuffStat.damage)));
         }
     }
     public void RemoveEnemy(EnemyHp enemyHp)

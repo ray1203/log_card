@@ -139,7 +139,7 @@ public class PlayerCtrl : MonoBehaviour
     public void Roll()
     {
         BuffManager.instance.AddBuff(BuffStat.absolDef, 100000, 0.3f);
-        BuffManager.instance.AddBuff(BuffStat.speed, 1.2f, 0.3f);
+        BuffManager.instance.AddBuff(BuffStat.speed, 2.2f, 0.3f);
         rollTimer = 0f;
     }
 }

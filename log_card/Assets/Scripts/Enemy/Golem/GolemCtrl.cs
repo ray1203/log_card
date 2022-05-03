@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.UI;
 public class GolemCtrl : MonoBehaviour
 {
     private float moveSpeed = 2f;
@@ -17,6 +18,7 @@ public class GolemCtrl : MonoBehaviour
     private float attack2Cool = 3f, attack2Timer = 10f;
     private float abilityHp;
     private float abilityTimer = 0f;
+    private Image hpUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,11 +29,15 @@ public class GolemCtrl : MonoBehaviour
         scale = this.transform.localScale;
         maxHp = hp.hp;
         abilityHp = maxHp - maxHp / 4;
+        GameManager.instance.bossHp.SetActive(true);
+        GameManager.instance.bossHpBack.SetActive(true);
+        hpUI = GameManager.instance.bossHp.GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        hpUI.fillAmount = (float)hp.hp / (float)maxHp;
         if (hp.hp > 0)
         {
             if (!attack)
